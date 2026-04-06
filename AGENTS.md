@@ -8,8 +8,8 @@ This repo contains a browser-side PDF generator for laboratory reports. The main
 
 The generator:
 
-- builds a Labcorp-style PDF with `jsPDF`
-- registers embedded PT Sans fonts from `lib/fonts.js`
+- builds a Genex-style PDF with `jsPDF`
+- registers embedded Source Sans 3 fonts from `lib/fonts.js`
 - expects patient metadata separately from report data
 - returns a previewable `blob:` URL instead of saving a file directly
 

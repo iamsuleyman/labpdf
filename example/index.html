@@ -30,11 +30,12 @@
         fetch('./samples/data.json'),
         fetch('./samples/patient.json')
       ]);
-      const [data, patient] = await Promise.all([
+      const [data, opts] = await Promise.all([
         dataResp.json(),
         patientResp.json()
       ]);
-      const url = await window.LabPdf.generatePDF(data, { patient, logoUrl: '../lib/logo.svg' });
+      opts.logoUrl = '../lib/logo.svg';
+      const url = await window.LabPdf.generatePDF(data, opts);
       document.getElementById('preview').src = url;
     }
 
