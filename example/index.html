@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab PDF Example</title>
+  <script src="./vendor/jspdf.umd.min.js"></script>
+  <script src="./vendor/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    .toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+    button { padding: 12px 24px; font-size: 16px; cursor: pointer; background: #0072CE; color: #fff; border: none; border-radius: 4px; }
+    button:hover { background: #005fa3; }
+    iframe { width: 100%; height: 90vh; border: 1px solid #ccc; background: #fff; }
+    .hint { color: #555; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="generate()">Generate PDF</button>
+    <div class="hint">Testing sandbox for <code>../lib/labpdf.js</code></div>
+  </div>
+  <iframe id="preview"></iframe>
+
+  <script src="../lib/fonts.js"></script>
+  <script src="../lib/labpdf.js"></script>
+  <script>
+    async function generate() {
+      const [dataResp, patientResp] = await Promise.all([
+        fetch('./samples/data.json'),
+        fetch('./samples/patient.json')
+      ]);
+      const [data, patient] = await Promise.all([
+        dataResp.json(),
+        patientResp.json()
+      ]);
+      const url = await window.LabPdf.generatePDF(data, { patient, logoUrl: '../lib/logo.svg' });
+      document.getElementById('preview').src = url;
+    }
+
+    generate();
+  </script>
+</body>
+</html>
