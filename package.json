@@ -4,8 +4,12 @@
   "description": "Browser-side lab report PDF generator",
   "type": "module",
   "main": "lib/labpdf.js",
+  "types": "lib/labpdf.d.ts",
   "exports": {
-    ".": "./lib/labpdf.js",
+    ".": {
+      "types": "./lib/labpdf.d.ts",
+      "default": "./lib/labpdf.js"
+    },
     "./fonts": "./lib/fonts.js",
     "./logo.svg": "./lib/logo.svg",
     "./logo-black.svg": "./lib/logo-black.svg"
