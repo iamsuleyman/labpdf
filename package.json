@@ -1,0 +1,17 @@
+{
+  "name": "labpdf",
+  "version": "1.0.0",
+  "description": "Browser-side lab report PDF generator",
+  "type": "module",
+  "main": "lib/labpdf.js",
+  "exports": {
+    ".": "./lib/labpdf.js",
+    "./fonts": "./lib/fonts.js",
+    "./logo.svg": "./lib/logo.svg",
+    "./logo-black.svg": "./lib/logo-black.svg"
+  },
+  "dependencies": {
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.7"
+  }
+}
