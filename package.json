@@ -1,6 +1,6 @@
 {
   "name": "labpdf",
-  "version": "1.0.0",
+  "version": "2.0.3",
   "description": "Browser-side lab report PDF generator",
   "type": "module",
   "main": "lib/labpdf.js",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "jspdf": "^4.2.1",
-    "jspdf-autotable": "^5.0.7"
+    "jspdf-autotable": "^5.0.7",
+    "svg2pdf.js": "^2.7.0"
   }
 }

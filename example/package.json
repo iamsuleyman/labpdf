@@ -1,0 +1,17 @@
+{
+  "name": "labpdf-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.7",
+    "svg2pdf.js": "^2.7.0"
+  },
+  "devDependencies": {
+    "vite": "^8.0.6"
+  }
+}
