@@ -6,6 +6,7 @@
   <title>Lab PDF Example</title>
   <script src="./vendor/jspdf.umd.min.js"></script>
   <script src="./vendor/jspdf.plugin.autotable.min.js"></script>
+  <script src="./vendor/svg2pdf.umd.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
     .toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
@@ -22,10 +23,10 @@
   </div>
   <iframe id="preview"></iframe>
 
-  <script src="../lib/fonts.js"></script>
-  <script src="../lib/labpdf.js"></script>
-  <script>
-    async function generate() {
+  <script type="module">
+    import { generatePDF } from '../lib/labpdf.js';
+
+    window.generate = async function generate() {
       const [dataResp, patientResp] = await Promise.all([
         fetch('./samples/data.json'),
         fetch('./samples/patient.json')
@@ -34,12 +35,11 @@
         dataResp.json(),
         patientResp.json()
       ]);
-      opts.logoUrl = '../lib/logo.svg';
-      const url = await window.LabPdf.generatePDF(data, opts);
+      const url = await generatePDF(data, opts);
       document.getElementById('preview').src = url;
-    }
+    };
 
-    generate();
+    window.generate();
   </script>
 </body>
 </html>

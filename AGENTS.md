@@ -4,7 +4,7 @@ This file helps AI coding agents work safely and quickly in this repository.
 
 ## Project summary
 
-This repo contains a browser-side PDF generator for laboratory reports. The main implementation is in `lib/labpdf.js`, and the demo harness is in `example/`.
+This repo contains a browser-side PDF generator for laboratory reports. The main entry point is `lib/labpdf.js`, and the demo harness is in `example/`.
 
 The generator:
 
@@ -15,9 +15,17 @@ The generator:
 
 ## Repo map
 
-- `lib/labpdf.js`: source of truth for layout, table rendering, headers, footers, and exported API
+- `lib/labpdf.js`: main entry point — orchestrates PDF generation, re-exports public API
+- `lib/constants.js`: style constants (`S`), default data shapes (`DEFAULT_PATIENT`, etc.), `contentW`
+- `lib/helpers.js`: pure utility functions — range checks, normalization, row building, report resolution
+- `lib/resolve-options.js`: options parsing and legacy format support
+- `lib/logo.js`: SVG-to-PNG logo loader with caching
+- `lib/draw-header.js`: header, date bar, ordered items, date-collected rendering
+- `lib/draw-footer.js`: footer rendering (page numbers, copyright, disclaimer)
+- `lib/draw-details.js`: details/disclaimer section at end of report
+- `lib/draw-table.js`: results table rendering via `autoTable`
 - `lib/fonts.js`: embedded font payloads; treat as generated/static asset
-- `lib/logo.svg`: logo asset
+- `lib/logo.svg`, `lib/logo-black.svg`: logo assets
 - `example/index.html`: simplest end-to-end manual test
 - `example/samples/data.json`: report payload example
 - `example/samples/patient.json`: patient payload example
@@ -26,15 +34,19 @@ The generator:
 
 ## How the code is organized
 
-Inside `lib/labpdf.js` the rough flow is:
+The code is split into focused modules under `lib/`:
 
-1. Define patient defaults and style constants.
-2. Normalize and derive report/patient data.
-3. Draw repeated page chrome: header, date blocks, footer.
-4. Convert `reportFormatAndValues` into printable rows.
-5. Render result tables with `autoTable`.
-6. Render the final details/disclaimer section.
-7. Return `doc.output('bloburl')`.
+1. **constants.js** — default shapes and style tokens.
+2. **helpers.js** — pure functions: `isOutOfRange`, `flagDirection`, `refInterval`, `buildRows`, `resolveReports`, etc.
+3. **resolve-options.js** — merges `options.patient` / `options.doctor` / `options.specimen` with defaults, supports legacy flat format.
+4. **logo.js** — converts SVG URLs to PNG data URLs via canvas (cached).
+5. **draw-header.js** — `drawHeader`, `drawDateBar`, `drawOrderedItems`, `drawDateCollectedRight`.
+6. **draw-footer.js** — `drawFooter`.
+7. **draw-details.js** — `drawDetailsSection`.
+8. **draw-table.js** — `drawResultTable` (builds `autoTable` body and all cell hooks).
+9. **labpdf.js** — orchestrator: creates the jsPDF document, calls draw functions in order, returns blob URL.
+
+All draw functions receive `patient`, `doctor`, `specimen` as explicit parameters (no module-level mutable state).
 
 ## Data contract
 
@@ -61,21 +73,15 @@ Reference-range highlighting depends on:
 
 ## Working agreements for agents
 
-- Prefer editing `lib/labpdf.js` when changing behavior.
+- **Layout/styling**: edit the relevant `draw-*.js` file.
+- **Data helpers / range logic**: edit `helpers.js`.
+- **Options parsing / legacy compat**: edit `resolve-options.js`.
+- **Style tokens / defaults**: edit `constants.js`.
+- **Orchestration flow**: edit `labpdf.js`.
 - Do not hand-edit `lib/fonts.js` unless the task is specifically about replacing embedded fonts.
 - Use `example/index.html` plus the sample JSON files for manual verification.
 - Preserve browser compatibility; this repo is not structured as a Node build pipeline.
 - Keep the existing exported globals working: `LabPdf.generatePDF`, `LabPdf.createLabReportPdf`, and `window.generatePDF`.
-
-## Safe change patterns
-
-Common tasks and where to implement them:
-
-- Layout/styling tweak: `lib/labpdf.js`
-- Header/footer/details content: `lib/labpdf.js`
-- Sample-data update for repro/testing: `example/samples/*.json`
-- Demo behavior change: `example/index.html`
-- Human-facing repo overview: `README.md`
 
 ## Verification
 
