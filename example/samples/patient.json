@@ -1,17 +1,17 @@
 {
   "patient": {
-    "name": "Radjabov, Artur U",
-    "patientId": "RAD-2024-0581",
+    "name": "Anasatasiia Pronina",
+    "patientId": "803",
     "specimenId": "177-436-3930-0",
-    "dob": "10/10/1965",
-    "age": 58,
-    "sex": "Male",
+    "dob": "06.07.1996",
+    "age": "",
+    "sex": "Female",
     "address": "54 BOWMAN DR, FSTRVL TRVOSE, PA, 19053",
     "phone": "267-597-5141"
   },
   "doctor": {
-    "name": "Sergei Chekov MD PC",
-    "accountNumber": "37010330",
+    "name": "Bratanova M.L.",
+    "accountNumber": "011",
     "address": "9892 Bustleton Ave Suite 103, Philadelphia, PA, 19115",
     "phone": "215-897-9090",
     "npi": "1265470306"
